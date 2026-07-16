@@ -1,0 +1,52 @@
+@extends('layouts.admin')
+
+@section('title', 'Edit Kategori')
+
+@section('content')
+<div style="max-width:640px;">
+    <a href="{{ route('admin.categories.index') }}"
+       style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#94a3b8;text-decoration:none;margin-bottom:20px;transition:color 150ms;"
+       onmouseover="this.style.color='#1e293b'" onmouseout="this.style.color='#94a3b8'">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Kembali ke Daftar Kategori
+    </a>
+
+    <h1 style="font-size:24px;font-weight:700;color:#0f172a;letter-spacing:-0.02em;margin-bottom:6px;">Edit Kategori</h1>
+    <p style="font-size:14px;color:#475569;margin-bottom:24px;">Perbarui nama kategori yang dipilih.</p>
+
+    <div style="background:#fff;border:1px solid #f1f5f9;border-radius:16px;padding:24px;
+                box-shadow:0 1px 3px 0 rgba(15,23,42,.03);">
+        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block;font-size:13px;font-weight:600;color:#1e293b;margin-bottom:6px;">Nama Kategori</label>
+                <input type="text" name="name" value="{{ old('name', $category->name) }}" required
+                       style="width:100%;height:44px;padding:0 16px;border:1px solid #e2e8f0;border-radius:12px;
+                              font-size:14px;color:#1e293b;background:#fff;outline:none;font-family:'Manrope',sans-serif;box-sizing:border-box;"
+                       onfocus="this.style.borderColor='#9d5ef5';this.style.boxShadow='0 0 0 4px #f3ebfe';"
+                       onblur="this.style.borderColor='#e2e8f0';this.style.boxShadow='none';">
+                @error('name')
+                    <p style="font-size:12px;color:#e11d48;margin-top:6px;">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div style="border-top:1px solid #f1f5f9;padding-top:20px;display:flex;justify-content:flex-end;gap:10px;">
+                <a href="{{ route('admin.categories.index') }}"
+                   style="height:40px;padding:0 20px;display:inline-flex;align-items:center;background:#fff;color:#475569;
+                          border:1px solid #e2e8f0;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;transition:background 150ms;"
+                   onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fff'">Batal</a>
+                <button type="submit"
+                        style="height:40px;padding:0 24px;background:#8436f2;color:#fff;border:none;border-radius:8px;
+                               font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;transition:background 150ms;"
+                        onmouseover="this.style.background='#7831dc'" onmouseout="this.style.background='#8436f2'">
+                    Update Data
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
