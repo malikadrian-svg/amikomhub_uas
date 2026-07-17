@@ -12,10 +12,13 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        $user   = Auth::user();
-        $search = $request->input('search');
-        $filter = $request->input('filter');
-        $statusFilter = $request->input('status_filter');
+        $user           = Auth::user();
+        $search         = $request->input('search');
+        $filter         = $request->input('filter');
+        $statusFilter   = $request->input('status_filter');
+        $categoryFilter = $request->input('category_filter');
+
+        $categories = \App\Models\Category::orderBy('name')->get();
 
         $query = Event::with(['category', 'organizer']);
 
@@ -32,6 +35,11 @@ class EventController extends Controller
         // Filter status (superadmin only)
         if ($user->isSuperadmin() && $statusFilter && $statusFilter !== 'all') {
             $query->where('status', $statusFilter);
+        }
+
+        // Filter kategori
+        if ($categoryFilter && $categoryFilter !== 'all') {
+            $query->where('category_id', $categoryFilter);
         }
 
         // Sorting
@@ -55,7 +63,7 @@ class EventController extends Controller
 
         $events = $query->paginate(4);
 
-        return view('admin.events.index', compact('events', 'search', 'filter', 'statusFilter'));
+        return view('admin.events.index', compact('events', 'search', 'filter', 'statusFilter', 'categoryFilter', 'categories'));
     }
 
     public function create()

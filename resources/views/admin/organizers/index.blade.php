@@ -84,7 +84,7 @@
                 </div>
                 <div style="background:#f8fafc;border-radius:10px;padding:10px;text-align:center;">
                     <p style="font-size:18px;font-weight:700;color:#0f172a;">{{ $org->stats['tickets_sold'] }}</p>
-                    <p style="font-size:10px;color:#94a3b8;font-weight:600;margin-top:2px;">Tiket</p>
+                    <p style="font-size:10px;color:#94a3b8;font-weight:600;margin-top:2px;">Terjual</p>
                 </div>
             </div>
 

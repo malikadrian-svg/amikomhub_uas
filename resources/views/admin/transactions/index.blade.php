@@ -50,7 +50,6 @@
                         <th style="padding:12px 20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;text-align:left;">Event</th>
                         <th style="padding:12px 20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;text-align:left;">Tgl Transaksi</th>
                         <th style="padding:12px 20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;text-align:left;">Status</th>
-                        <th style="padding:12px 20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;text-align:right;">Total Tagihan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,13 +85,10 @@
                                 <span style="display:inline-flex;padding:3px 10px;background:#fff1f2;color:#be123c;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;border:1px solid #fecdd3;">{{ $trx->status }}</span>
                             @endif
                         </td>
-                        <td style="padding:14px 20px;text-align:right;font-size:14px;font-weight:700;color:#0f172a;white-space:nowrap;">
-                            Rp {{ number_format($trx->total_price, 0, ',', '.') }}
-                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" style="padding:56px 24px;text-align:center;color:#94a3b8;font-size:14px;">
+                        <td colspan="5" style="padding:56px 24px;text-align:center;color:#94a3b8;font-size:14px;">
                             Belum ada transaksi yang ditemukan.
                         </td>
                     </tr>

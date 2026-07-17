@@ -37,7 +37,7 @@
             font-size: 13.5px; font-weight: 600; color: var(--neutral-600);
             text-decoration: none; transition: all 150ms ease-out;
         }
-        .nav-item:hover { background: var(--violet-50); color: var(--neutral-800); }
+        .nav-item:hover { background: var(--neutral-100); color: var(--neutral-800); }
         .nav-item.active { background: var(--violet-50); color: var(--violet-800); }
         .nav-item svg { flex-shrink: 0; }
 
@@ -82,11 +82,9 @@
              class="flex items-center gap-3">
             <div style="width:34px;height:34px;background:var(--violet-500);border-radius:10px;color:#fff;font-weight:700;font-size:13px;"
                  class="flex items-center justify-center flex-shrink-0">AH</div>
-            <div>
-                <span style="font-size:15px;font-weight:700;color:var(--neutral-950);letter-spacing:-0.02em;display:block;">AmikomHub</span>
-                <span style="font-size:10px;font-weight:600;color:var(--neutral-400);">
-                    {{ auth()->user()->isSuperadmin() ? 'Admin Panel' : 'Organizer Panel' }}
-                </span>
+            <div style="display:-webkit-box;display:-ms-flexbox;display:flex;flex-direction:column;justify-content:center;">
+                <span style="font-size:15px;font-weight:700;color:var(--neutral-950);letter-spacing:-0.02em;line-height:1.35;">AmikomHub</span>
+                <span style="font-size:10px;font-weight:600;color:var(--neutral-400);line-height:1.35;margin-top:3px;">{{ auth()->user()->isSuperadmin() ? 'Admin Panel' : 'Organizer Panel' }}</span>
             </div>
         </div>
 
@@ -118,7 +116,7 @@
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
-                {{ auth()->user()->isOrganizer() ? 'Transaksi Saya' : 'Laporan Transaksi' }}
+                {{ auth()->user()->isOrganizer() ? 'Transaksi' : 'Laporan Transaksi' }}
             </a>
 
             {{-- Menu Eksklusif Superadmin --}}
@@ -209,27 +207,6 @@
 
     <!-- Main Content -->
     <main class="flex-1 overflow-y-auto" style="padding:36px 40px; background:var(--neutral-50); min-height:100vh;">
-
-        {{-- Flash messages --}}
-        @if(session('success'))
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px 16px;margin-bottom:24px;
-                        display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#15803d;">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                </svg>
-                {!! session('success') !!}
-            </div>
-        @endif
-
-        @if(session('error'))
-            <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:10px;padding:12px 16px;margin-bottom:24px;
-                        display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:#be123c;">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-                {!! session('error') !!}
-            </div>
-        @endif
 
         @yield('content')
     </main>

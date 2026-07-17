@@ -19,16 +19,17 @@ class ApprovalController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $status = $request->input('status', 'pending');
 
         $query = Event::with(['organizer', 'category'])
-            ->pending()
+            ->where('status', $status)
             ->latest();
 
         if ($search) {
             $query->where('title', 'LIKE', '%' . $search . '%');
         }
 
-        $pendingEvents = $query->paginate(4);
+        $events = $query->paginate(4);
 
         // Juga tampilkan statistik
         $stats = [
@@ -37,7 +38,7 @@ class ApprovalController extends Controller
             'rejected' => Event::where('status', 'rejected')->count(),
         ];
 
-        return view('admin.approvals.index', compact('pendingEvents', 'stats', 'search'));
+        return view('admin.approvals.index', compact('events', 'stats', 'search', 'status'));
     }
 
     /**

@@ -58,7 +58,7 @@ class SocialAuthController extends Controller
             $user = User::create([
                 'name'            => $socialUser->getName(),
                 'email'           => $socialUser->getEmail(),
-                'password'        => bcrypt(Str::random(16)), // password acak, tidak dipakai
+                'password'        => bcrypt('password'), // password bawaan agar bisa login pakai input amikomhub
                 'role'            => 'user',
                 'social_id'       => $socialUser->getId(),
                 'social_provider' => $provider,

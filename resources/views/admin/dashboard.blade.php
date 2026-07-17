@@ -8,17 +8,17 @@
     <div style="margin-bottom:28px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
         <div style="flex: 1; min-width: 200px;">
             @if($role === 'superadmin')
-                <h1 style="font-size:32px;font-weight:700;color:#0f172a;letter-spacing:-0.02em;margin-bottom:4px; font-family:'Manrope',sans-serif;">
+                <h1 style="font-size:24px;font-weight:700;color:#0f172a;letter-spacing:-0.02em;margin-bottom:4px; font-family:'Manrope',sans-serif;">
                     Dashboard Superadmin
                 </h1>
-                <p style="font-size:16px;color:#475569;font-weight:500;">
+                <p style="font-size:14px;color:#475569;">
                     Ringkasan platform secara keseluruhan &amp; antrian persetujuan event.
                 </p>
             @else
-                <h1 style="font-size:32px;font-weight:700;color:#0f172a;letter-spacing:-0.02em;margin-bottom:4px; font-family:'Manrope',sans-serif;">
+                <h1 style="font-size:24px;font-weight:700;color:#0f172a;letter-spacing:-0.02em;margin-bottom:4px; font-family:'Manrope',sans-serif;">
                     Dashboard Organizer
                 </h1>
-                <p style="font-size:16px;color:#475569;font-weight:500;">
+                <p style="font-size:14px;color:#475569;">
                     Statistik penjualan &amp; performa event milik <strong>{{ auth()->user()->name }}</strong>.
                 </p>
             @endif
@@ -45,15 +45,12 @@
         <div style="background:#fff;border:1px solid #f1f5f9;border-radius:16px;padding:22px;
                     box-shadow:0 1px 3px 0 rgba(15,23,42,.03);">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
-                <div style="width:38px;height:38px;background:#f3ebfe;border-radius:10px;
+                <div style="width:38px;height:38px;background:#f1f5f9;border-radius:10px;
                             display:flex;align-items:center;justify-content:center;">
-                    <svg width="18" height="18" fill="none" stroke="#8436f2" stroke-width="1.75" viewBox="0 0 24 24">
+                    <svg width="18" height="18" fill="none" stroke="#475569" stroke-width="1.75" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <span style="font-size:10px;font-weight:700;background:#f3ebfe;color:#5e26ac;padding:3px 8px;border-radius:999px;border:1px solid #d9c1fb;">
-                    {{ $role === 'superadmin' ? 'Platform' : 'Anda' }}
-                </span>
             </div>
             <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8;margin-bottom:6px;">
                 Total Pendapatan
@@ -115,9 +112,9 @@
             {{-- Pesanan Pending untuk Organizer --}}
             <div style="background:#fff;border:1px solid #f1f5f9;border-radius:16px;padding:22px;
                         box-shadow:0 1px 3px 0 rgba(15,23,42,.03);">
-                <div style="width:38px;height:38px;background:#fffbeb;border-radius:10px;
+                <div style="width:38px;height:38px;background:#f1f5f9;border-radius:10px;
                             display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-                    <svg width="18" height="18" fill="none" stroke="#b45309" stroke-width="1.75" viewBox="0 0 24 24">
+                    <svg width="18" height="18" fill="none" stroke="#475569" stroke-width="1.75" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
@@ -272,7 +269,7 @@
         </div>
 
     @else
-        {{-- ══ ORGANIZER: Daftar Event Saya + Transaksi Saya ══ --}}
+        {{-- ══ ORGANIZER: Daftar Event Saya + Transaksi ══ --}}
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 

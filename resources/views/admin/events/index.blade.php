@@ -67,11 +67,19 @@
             <option value="rejected" {{ ($statusFilter??'')=='rejected'?'selected':'' }}>Rejected</option>
         </select>
         @endif
+        <select name="category_filter"
+                style="height:44px;padding:0 12px;border:1px solid #e2e8f0;border-radius:12px;
+                       font-size:14px;color:#1e293b;background:#fff;outline:none;font-family:'Manrope',sans-serif;">
+            <option value="all" {{ ($categoryFilter??'')=='all'?'selected':'' }}>— Semua Kategori —</option>
+            @foreach($categories as $cat)
+                <option value="{{ $cat->id }}" {{ ($categoryFilter??'')==$cat->id?'selected':'' }}>{{ $cat->name }}</option>
+            @endforeach
+        </select>
         <button type="submit"
                 style="height:44px;padding:0 20px;background:#7831dc;color:#fff;border:none;border-radius:12px;
                        font-size:14px;font-weight:600;cursor:pointer;font-family:'Manrope',sans-serif;transition:all 150ms;"
                 onmouseover="this.style.background='#5e26ac'" onmouseout="this.style.background='#7831dc'">Cari</button>
-        @if(($search??'')||($filter??'')||(($statusFilter??'') && ($statusFilter??'')!='all'))
+        @if(($search??'')||($filter??'')||(($statusFilter??'') && ($statusFilter??'')!='all')||(($categoryFilter??'') && ($categoryFilter??'')!='all'))
         <a href="{{ route('admin.events.index') }}"
            style="height:44px;padding:0 20px;display:inline-flex;align-items:center;background:#fff;color:#475569;
                   border:1px solid #e2e8f0;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;"
@@ -117,10 +125,8 @@
                             {{ $event->organizer->name ?? '-' }}
                         </td>
                         @endif
-                        <td style="padding:14px 20px;">
-                            <span style="display:inline-flex;padding:3px 10px;background:#f3ebfe;color:#7831dc;border:1px solid #d9c1fb;border-radius:6px;font-size:12px;font-weight:600;">
-                                {{ $event->category->name ?? '-' }}
-                            </span>
+                        <td style="padding:14px 20px;font-size:13.5px;color:#475569;">
+                            {{ $event->category->name ?? '-' }}
                         </td>
                         <td style="padding:14px 20px;font-size:14px;color:#475569;">
                             {{ $event->stock }}
@@ -182,7 +188,7 @@
                 @if($events->onFirstPage())
                     <span style="padding:6px 12px;font-size:13px;color:#cbd5e1;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;cursor:not-allowed;">‹ Prev</span>
                 @else
-                    <a href="{{ $events->appends(['search'=>$search,'filter'=>$filter,'status_filter'=>$statusFilter])->previousPageUrl() }}"
+                    <a href="{{ $events->appends(['search'=>$search,'filter'=>$filter,'status_filter'=>$statusFilter,'category_filter'=>$categoryFilter])->previousPageUrl() }}"
                        style="padding:6px 12px;font-size:13px;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;transition:all 150ms;"
                        onmouseover="this.style.background='#f3ebfe';this.style.color='#8436f2';"
                        onmouseout="this.style.background='#fff';this.style.color='#475569';">‹ Prev</a>
@@ -191,14 +197,14 @@
                     @if($page == $events->currentPage())
                         <span style="padding:6px 12px;font-size:13px;font-weight:700;color:#fff;background:#ad78f6;border:1px solid #ad78f6;border-radius:8px;">{{ $page }}</span>
                     @else
-                        <a href="{{ $events->appends(['search'=>$search,'filter'=>$filter,'status_filter'=>$statusFilter])->url($page) }}"
+                        <a href="{{ $events->appends(['search'=>$search,'filter'=>$filter,'status_filter'=>$statusFilter,'category_filter'=>$categoryFilter])->url($page) }}"
                            style="padding:6px 12px;font-size:13px;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;"
                            onmouseover="this.style.background='#f3ebfe';this.style.color='#8436f2';"
                            onmouseout="this.style.background='#fff';this.style.color='#475569';">{{ $page }}</a>
                     @endif
                 @endforeach
                 @if($events->hasMorePages())
-                    <a href="{{ $events->appends(['search'=>$search,'filter'=>$filter,'status_filter'=>$statusFilter])->nextPageUrl() }}"
+                    <a href="{{ $events->appends(['search'=>$search,'filter'=>$filter,'status_filter'=>$statusFilter,'category_filter'=>$categoryFilter])->nextPageUrl() }}"
                        style="padding:6px 12px;font-size:13px;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;"
                        onmouseover="this.style.background='#f3ebfe';this.style.color='#8436f2';"
                        onmouseout="this.style.background='#fff';this.style.color='#475569';">Next ›</a>

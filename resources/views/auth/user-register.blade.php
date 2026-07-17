@@ -115,6 +115,7 @@
 
         .card-header {
             margin-bottom: 28px;
+            text-align: center;
         }
         .card-header h1 {
             font-size: 24px;
@@ -127,6 +128,42 @@
             font-size: 14px;
             color: var(--neutral-600);
             line-height: 1.5;
+        }
+
+        /* ── Logo / Brand ── */
+        .brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .brand-icon {
+            width: 44px; height: 44px;
+            background: var(--violet-500);
+            border-radius: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(132, 54, 242, 0.25);
+            letter-spacing: -0.5px;
+        }
+        .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--neutral-950);
+            letter-spacing: -0.02em;
+        }
+        .brand-sub {
+            font-size: 13px;
+            color: var(--neutral-400);
+            margin-top: 6px;
         }
 
         .alert {
@@ -217,7 +254,7 @@
         .btn-primary {
             background: var(--violet-500);
             color: #fff;
-            margin-top: 8px;
+            margin-top: 24px;
             margin-bottom: 12px;
         }
         .btn-primary:hover { background: var(--violet-600); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(132, 54, 242, 0.3); }
@@ -267,12 +304,7 @@
         }
         .text-link:hover { color: var(--violet-600); }
 
-        .page-footer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 12px;
-            color: var(--neutral-400);
-        }
+
 
         /* ── Terms notice ── */
         .terms-notice {
@@ -348,25 +380,6 @@
                 </div>
             @endif
 
-            <!-- Google SSO -->
-            <a id="btn-google-register"
-               href="{{ route('social.redirect', ['provider' => 'google']) }}"
-               class="btn btn-google">
-                <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.909c1.702-1.567 2.683-3.874 2.683-6.616z" fill="#4285F4"/>
-                    <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.838.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.932 5.485 18 9 18z" fill="#34A853"/>
-                    <path d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.957H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
-                    <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.896 11.426 0 9 0 5.485 0 2.438 2.068.957 5.043l3.007 2.332C4.672 5.164 6.656 3.58 9 3.58z" fill="#EA4335"/>
-                </svg>
-                Continue with Google
-            </a>
-
-            <div class="divider">
-                <div class="divider-line"></div>
-                <span class="divider-text">atau daftar dengan email</span>
-                <div class="divider-line"></div>
-            </div>
-
             <!-- Register Form -->
             <form method="POST" action="{{ route('user.register.post') }}" id="register-form">
                 @csrf
@@ -394,7 +407,7 @@
 
                 <!-- Email -->
                 <div class="form-group">
-                    <label for="email" class="form-label">Alamat Email</label>
+                    <label for="email" class="form-label">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -460,9 +473,6 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btn-register-submit">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
-                    </svg>
                     Buat Akun Gratis
                 </button>
 
@@ -476,7 +486,6 @@
             </div>
         </div>
 
-        <p class="page-footer">&copy; {{ date('Y') }} AmikomHub &mdash; Platform Tiket Event Kampus</p>
     </div>
 
     <script>

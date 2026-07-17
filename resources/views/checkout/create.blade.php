@@ -3,7 +3,7 @@
 @section('title', 'Checkout - ' . $event->title)
 
 @section('content')
-    <main class="max-w-6xl mx-auto px-6 py-12">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
         {{-- Breadcrumb --}}
         <div class="mb-8">
@@ -17,8 +17,8 @@
         </div>
 
         {{-- Page Header --}}
-        <div class="mb-10 space-y-2">
-            <h1 class="text-3xl font-extrabold text-neutral-900 leading-tight">Selesaikan Pemesanan</h1>
+        <div class="mb-8 sm:mb-10 space-y-2">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-900 leading-tight">Selesaikan Pemesanan</h1>
             <p class="text-neutral-505 text-sm font-medium">Lengkapi rincian formulir data diri Anda untuk penerbitan E-Ticket.</p>
         </div>
 
@@ -35,7 +35,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
             {{-- LEFT: Form Card --}}
-            <div class="lg:col-span-2 space-y-8">
+            <div class="lg:col-span-2 space-y-8 order-2 lg:order-1">
                 <div class="bg-white rounded-2xl border border-neutral-200 p-8 shadow-sm">
                     <h3 class="text-base font-extrabold text-neutral-800 flex items-center gap-2 mb-1">
                         <span class="w-6 h-6 bg-violet-50 text-violet-600 rounded-lg flex items-center justify-center text-xs">👤</span>
@@ -113,7 +113,7 @@
             </div>
 
             {{-- RIGHT: Order Summary Sidebar --}}
-            <div class="lg:col-span-1">
+            <div class="lg:col-span-1 order-1 lg:order-2">
                 <div class="sticky top-28 space-y-6">
 
                     {{-- Event Summary Card --}}

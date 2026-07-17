@@ -129,6 +129,7 @@
 
         .card-header {
             margin-bottom: 28px;
+            text-align: center;
         }
         .card-header h1 {
             font-size: 24px;
@@ -300,10 +301,7 @@
         }
 
         .page-footer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 12px;
-            color: var(--neutral-400);
+            display: none;
         }
 
         /* ── Responsive ── */
@@ -394,34 +392,13 @@
                 </div>
             @endif
 
-            <!-- Google SSO Button -->
-            <a id="btn-google-login"
-               href="{{ route('social.redirect', ['provider' => 'google', 'redirect_to' => url()->previous()]) }}"
-               class="btn btn-google">
-                <!-- Google SVG Logo -->
-                <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.909c1.702-1.567 2.683-3.874 2.683-6.616z" fill="#4285F4"/>
-                    <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.838.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.932 5.485 18 9 18z" fill="#34A853"/>
-                    <path d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.957H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
-                    <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.896 11.426 0 9 0 5.485 0 2.438 2.068.957 5.043l3.007 2.332C4.672 5.164 6.656 3.58 9 3.58z" fill="#EA4335"/>
-                </svg>
-                Continue with Google
-            </a>
-
-            <!-- Divider -->
-            <div class="divider">
-                <div class="divider-line"></div>
-                <span class="divider-text">atau masuk dengan email</span>
-                <div class="divider-line"></div>
-            </div>
-
             <!-- Login Form -->
             <form method="POST" action="{{ route('user.login.post') }}" id="login-form">
                 @csrf
 
                 <!-- Email -->
                 <div class="form-group">
-                    <label for="email" class="form-label">Alamat Email</label>
+                    <label for="email" class="form-label">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -475,12 +452,30 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" id="btn-login-submit">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
-                    </svg>
                     Masuk ke Akun
                 </button>
             </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span class="divider-text">atau masuk dengan</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <!-- Google SSO Button -->
+            <a id="btn-google-login"
+               href="{{ route('social.redirect', ['provider' => 'google', 'redirect_to' => url()->previous()]) }}"
+               class="btn btn-google">
+                <!-- Google SVG Logo -->
+                <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.909c1.702-1.567 2.683-3.874 2.683-6.616z" fill="#4285F4"/>
+                    <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.909-2.259c-.806.54-1.838.86-3.047.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.932 5.485 18 9 18z" fill="#34A853"/>
+                    <path d="M3.964 10.71c-.18-.54-.282-1.117-.282-1.71s.102-1.17.282-1.71V4.957H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+                    <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.896 11.426 0 9 0 5.485 0 2.438 2.068.957 5.043l3.007 2.332C4.672 5.164 6.656 3.58 9 3.58z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+            </a>
 
             <!-- Register link -->
             <div class="card-footer">

@@ -6,7 +6,7 @@
 
 {{-- ─── HERO BLOCK ─────────────────────────────────────────────────────────── --}}
 <section class="w-full bg-neutral-50 border-b border-neutral-100">
-    <div class="max-w-7xl mx-auto px-6 pt-10 pb-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-0">
 
         {{-- Back breadcrumb --}}
         <a href="{{ route('home') }}"
@@ -54,7 +54,7 @@
 </section>
 
 {{-- ─── MAIN CONTENT ────────────────────────────────────────────────────────── --}}
-<main class="max-w-7xl mx-auto px-6 py-12">
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
 
         {{-- ── LEFT COLUMN: Poster + About + Policy (8 cols) ───────────────── --}}

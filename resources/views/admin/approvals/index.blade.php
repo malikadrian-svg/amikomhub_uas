@@ -16,23 +16,30 @@
 
     {{-- Status Stats --}}
     <div class="grid grid-cols-3 gap-4" style="margin-bottom:24px;">
-        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:18px 20px;text-align:center;">
-            <p style="font-size:28px;font-weight:700;color:#92400e;letter-spacing:-0.02em;">{{ $stats['pending'] }}</p>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#b45309;margin-top:4px;">Menunggu Review</p>
-        </div>
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:18px 20px;text-align:center;">
-            <p style="font-size:28px;font-weight:700;color:#14532d;letter-spacing:-0.02em;">{{ $stats['approved'] }}</p>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#15803d;margin-top:4px;">Disetujui</p>
-        </div>
-        <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:14px;padding:18px 20px;text-align:center;">
-            <p style="font-size:28px;font-weight:700;color:#881337;letter-spacing:-0.02em;">{{ $stats['rejected'] }}</p>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#be123c;margin-top:4px;">Ditolak</p>
-        </div>
+        <a href="{{ route('admin.approvals.index', ['status' => 'pending', 'search' => $search]) }}" 
+           style="text-decoration:none;display:block;background:#fffbeb;border:1px solid {{ $status === 'pending' ? '#b45309' : '#fde68a' }};border-radius:14px;padding:18px 20px;text-align:center;box-shadow:{{ $status === 'pending' ? '0 4px 6px -1px rgba(146, 64, 14, 0.1), 0 2px 4px -1px rgba(146, 64, 14, 0.06)' : 'none' }};transition:transform 150ms;"
+           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <p style="font-size:28px;font-weight:700;color:#92400e;letter-spacing:-0.02em;margin:0;">{{ $stats['pending'] }}</p>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#b45309;margin:4px 0 0;">Menunggu Review</p>
+        </a>
+        <a href="{{ route('admin.approvals.index', ['status' => 'approved', 'search' => $search]) }}" 
+           style="text-decoration:none;display:block;background:#f0fdf4;border:1px solid {{ $status === 'approved' ? '#15803d' : '#bbf7d0' }};border-radius:14px;padding:18px 20px;text-align:center;box-shadow:{{ $status === 'approved' ? '0 4px 6px -1px rgba(21, 128, 61, 0.1), 0 2px 4px -1px rgba(21, 128, 61, 0.06)' : 'none' }};transition:transform 150ms;"
+           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <p style="font-size:28px;font-weight:700;color:#14532d;letter-spacing:-0.02em;margin:0;">{{ $stats['approved'] }}</p>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#15803d;margin:4px 0 0;">Disetujui</p>
+        </a>
+        <a href="{{ route('admin.approvals.index', ['status' => 'rejected', 'search' => $search]) }}" 
+           style="text-decoration:none;display:block;background:#fff1f2;border:1px solid {{ $status === 'rejected' ? '#be123c' : '#fecdd3' }};border-radius:14px;padding:18px 20px;text-align:center;box-shadow:{{ $status === 'rejected' ? '0 4px 6px -1px rgba(190, 18, 60, 0.1), 0 2px 4px -1px rgba(190, 18, 60, 0.06)' : 'none' }};transition:transform 150ms;"
+           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <p style="font-size:28px;font-weight:700;color:#881337;letter-spacing:-0.02em;margin:0;">{{ $stats['rejected'] }}</p>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#be123c;margin:4px 0 0;">Ditolak</p>
+        </a>
     </div>
 
     {{-- Search --}}
     <div style="margin-bottom:20px;">
         <form method="GET" action="{{ route('admin.approvals.index') }}">
+            <input type="hidden" name="status" value="{{ $status }}">
             <div style="position:relative;max-width:360px;">
                 <svg width="15" height="15" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"
                      style="position:absolute;left:14px;top:50%;transform:translateY(-50%);">
@@ -48,7 +55,7 @@
     </div>
 
     {{-- Event List --}}
-    @forelse($pendingEvents as $event)
+    @forelse($events as $event)
         @php $isFirst = $loop->first; @endphp
         <div style="background:#fff;border:1px solid #f1f5f9;border-radius:16px;overflow:hidden;
                     box-shadow:0 1px 3px 0 rgba(15,23,42,.03);margin-bottom:12px;transition:box-shadow 150ms;"
@@ -73,12 +80,9 @@
                 <div style="flex:1;padding:18px 22px;min-width:0;">
                     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
                         <div style="min-width:0;flex:1;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                                <span style="font-size:10px;font-weight:700;background:#f3ebfe;color:#5e26ac;padding:2px 8px;border-radius:999px;border:1px solid #d9c1fb;">
+                             <div style="margin-bottom:8px;">
+                                <span style="font-size:12px;font-weight:600;color:#64748b;">
                                     {{ $event->category->name ?? 'Tanpa Kategori' }}
-                                </span>
-                                <span style="font-size:10px;font-weight:700;background:#fffbeb;color:#b45309;padding:2px 8px;border-radius:999px;border:1px solid #fde68a;">
-                                    ● Pending
                                 </span>
                             </div>
 
@@ -122,7 +126,9 @@
 
                         {{-- Action Buttons --}}
                         <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
-                            <form method="POST" action="{{ route('admin.approvals.approve', $event->id) }}">
+                            @if($event->status !== 'approved')
+                            <form method="POST" action="{{ route('admin.approvals.approve', $event->id) }}"
+                                  onsubmit="return confirm('Apakah Anda yakin ingin MENYETUJUI event &quot;{{ $event->title }}&quot;?')">
                                 @csrf
                                 <button type="submit"
                                     style="width:120px;height:38px;background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;
@@ -136,7 +142,10 @@
                                     Approve
                                 </button>
                             </form>
-                            <form method="POST" action="{{ route('admin.approvals.reject', $event->id) }}">
+                            @endif
+                            @if($event->status !== 'rejected')
+                            <form method="POST" action="{{ route('admin.approvals.reject', $event->id) }}"
+                                  onsubmit="return confirm('Apakah Anda yakin ingin MENOLAK event &quot;{{ $event->title }}&quot;?')">
                                 @csrf
                                 <button type="submit"
                                     style="width:120px;height:38px;background:#fff1f2;color:#be123c;border:1px solid #fecdd3;
@@ -150,6 +159,7 @@
                                     Tolak
                                 </button>
                             </form>
+                            @endif
                             <a href="{{ route('admin.events.edit', $event->id) }}"
                                style="width:120px;height:38px;background:#f8fafc;color:#475569;border:1px solid #e2e8f0;
                                       border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;transition:all 150ms;
@@ -170,14 +180,48 @@
             <svg width="48" height="48" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <p style="font-size:15px;font-weight:600;color:#475569;margin-bottom:6px;">Tidak ada event pending</p>
-            <p style="font-size:13px;color:#94a3b8;">Semua pengajuan event sudah ditinjau. Mantap!</p>
+            <p style="font-size:15px;font-weight:600;color:#475569;margin-bottom:6px;">Tidak ada event dengan status "{{ $status }}"</p>
+            <p style="font-size:13px;color:#94a3b8;">Belum ada data event dalam status ini.</p>
         </div>
     @endforelse
 
     {{-- Pagination --}}
-    @if($pendingEvents->hasPages())
-        <div style="margin-top:20px;">{{ $pendingEvents->links() }}</div>
+    @if($events->hasPages())
+        <div style="padding:16px 20px;border-top:1px solid #f1f5f9;display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:20px;">
+            <p style="font-size:13px;color:#94a3b8;flex:1;">
+                Menampilkan <span style="color:#1e293b;font-weight:600;">{{ $events->firstItem() }}</span>
+                – <span style="color:#1e293b;font-weight:600;">{{ $events->lastItem() }}</span>
+                dari <span style="color:#1e293b;font-weight:600;">{{ $events->total() }}</span> data
+            </p>
+            <div style="display:flex;gap:4px;align-items:center;">
+                @if($events->onFirstPage())
+                    <span style="padding:6px 12px;font-size:13px;color:#cbd5e1;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;cursor:not-allowed;">‹ Prev</span>
+                @else
+                    <a href="{{ $events->appends(['search'=>$search,'status'=>$status])->previousPageUrl() }}"
+                       style="padding:6px 12px;font-size:13px;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;transition:all 150ms;"
+                       onmouseover="this.style.background='#f3ebfe';this.style.color='#8436f2';"
+                       onmouseout="this.style.background='#fff';this.style.color='#475569';">‹ Prev</a>
+                @endif
+                @foreach($events->getUrlRange(1, $events->lastPage()) as $page => $url)
+                    @if($page == $events->currentPage())
+                        <span style="padding:6px 12px;font-size:13px;font-weight:700;color:#fff;background:#ad78f6;border:1px solid #ad78f6;border-radius:8px;">{{ $page }}</span>
+                    @else
+                        <a href="{{ $events->appends(['search'=>$search,'status'=>$status])->url($page) }}"
+                           style="padding:6px 12px;font-size:13px;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;"
+                           onmouseover="this.style.background='#f3ebfe';this.style.color='#8436f2';"
+                           onmouseout="this.style.background='#fff';this.style.color='#475569';">{{ $page }}</a>
+                    @endif
+                @endforeach
+                @if($events->hasMorePages())
+                    <a href="{{ $events->appends(['search'=>$search,'status'=>$status])->nextPageUrl() }}"
+                       style="padding:6px 12px;font-size:13px;color:#475569;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;"
+                       onmouseover="this.style.background='#f3ebfe';this.style.color='#8436f2';"
+                       onmouseout="this.style.background='#fff';this.style.color='#475569';">Next ›</a>
+                @else
+                    <span style="padding:6px 12px;font-size:13px;color:#cbd5e1;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;cursor:not-allowed;">Next ›</span>
+                @endif
+            </div>
+        </div>
     @endif
 </div>
 @endsection

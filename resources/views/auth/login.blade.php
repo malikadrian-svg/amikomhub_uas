@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin — AmikomHub</title>
+    <title>Login Admin & Organizer — AmikomHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -74,7 +74,7 @@
                 </span>
             </a>
             <p style="font-size:14px;color:var(--neutral-400);margin-top:8px;">
-                Area khusus administrator
+                Area khusus administrator & organizer
             </p>
         </div>
 
@@ -86,7 +86,7 @@
                 <h1 style="font-size:24px;font-weight:700;color:var(--neutral-950);letter-spacing:-0.02em;margin-bottom:4px;">
                     Selamat Datang
                 </h1>
-                <p style="font-size:14px;color:var(--neutral-600);">Masuk untuk mengakses panel admin</p>
+                <p style="font-size:14px;color:var(--neutral-600);">Masuk untuk mengakses dashboard panel</p>
             </div>
 
             {{-- Error Alert --}}
@@ -115,7 +115,7 @@
                         Email
                     </label>
                     <input type="email" id="email" name="email" value="{{ old('email') }}"
-                           class="input-field" placeholder="admin@amikom.ac.id" required autofocus>
+                           class="input-field" placeholder="email@amikom.ac.id" required autofocus>
                 </div>
 
                 <!-- Password -->
@@ -124,18 +124,41 @@
                            style="display:block;font-size:13px;font-weight:600;color:var(--neutral-800);margin-bottom:6px;">
                         Password
                     </label>
-                    <input type="password" id="password" name="password"
-                           class="input-field" placeholder="Masukkan password" required>
+                    <div style="position:relative;">
+                        <input type="password" id="password" name="password"
+                               class="input-field" style="padding-right:44px;" placeholder="Masukkan password" required>
+                        <button type="button" id="toggle-password" aria-label="Tampilkan password"
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--neutral-400);padding:4px;display:flex;transition:color 150ms ease-out;"
+                                onmouseover="this.style.color='var(--neutral-600)'"
+                                onmouseout="this.style.color='var(--neutral-400)'">
+                            <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-primary">Masuk ke Dashboard</button>
             </form>
         </div>
 
-        <p style="text-align:center;font-size:12px;color:var(--neutral-400);margin-top:24px;">
-            &copy; {{ date('Y') }} AmikomHub &mdash; Admin Panel
-        </p>
+        {{-- Copyright removed --}}
     </div>
 
+    <script>
+        // Toggle password visibility
+        const toggle = document.getElementById('toggle-password');
+        const pwInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        const eyeOpen = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+        const eyeClosed = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+
+        toggle.addEventListener('click', () => {
+            const isPassword = pwInput.type === 'password';
+            pwInput.type = isPassword ? 'text' : 'password';
+            eyeIcon.innerHTML = isPassword ? eyeClosed : eyeOpen;
+        });
+    </script>
 </body>
 </html>

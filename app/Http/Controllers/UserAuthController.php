@@ -41,9 +41,15 @@ class UserAuthController extends Controller
             $user = Auth::user();
 
             // Blok akses panel admin dari halaman login user
-            // (admin/organizer tetap bisa pakai web biasa, tapi redirect ke panel mereka)
             if ($user->canAccessPanel()) {
-                return redirect()->route('admin.dashboard');
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return back()
+                    ->withInput($request->only('email'))
+                    ->withErrors([
+                        'email' => 'Admin dan Organizer tidak dapat login melalui halaman ini. Silakan gunakan portal yang sesuai.',
+                    ]);
             }
 
             // Kembalikan ke URL yang dimaksud (misal: checkout) atau ke home
@@ -107,9 +113,7 @@ class UserAuthController extends Controller
             'role'     => 'user',
         ]);
 
-        Auth::login($user, remember: true);
-
-        return redirect()->route('home')
-            ->with('success', 'Akun berhasil dibuat! Selamat datang, ' . $user->name . '!');
+        return redirect()->route('user.login')
+            ->with('success', 'Registrasi berhasil! Silakan masuk dengan akun baru Anda.');
     }
 }

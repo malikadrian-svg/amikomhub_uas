@@ -47,7 +47,7 @@
 @endpush
 
 @section('content')
-    <div class="bg-neutral-50 text-neutral-800 min-h-[calc(100vh-72px)] py-12 px-6">
+    <div class="bg-neutral-50 text-neutral-800 min-h-[calc(100vh-64px)] py-8 sm:py-12 px-4 sm:px-6">
         <div class="max-w-4xl mx-auto">
             <!-- Header Section -->
             <div class="mb-10 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -143,25 +143,8 @@
                             <div class="w-full md:w-80 p-6 md:p-8 bg-neutral-50 flex flex-col justify-between items-center text-center border-t md:border-t-0 md:border-l border-neutral-100">
                                 <div class="flex flex-col items-center w-full">
                                     <p class="text-neutral-400 text-[10px] font-bold uppercase tracking-wider mb-3">Scan QR untuk Check-in</p>
-                                    <div class="w-32 h-32 bg-white p-2.5 rounded-xl border border-neutral-200 flex items-center justify-center">
-                                        <div class="w-full h-full border-2 border-neutral-900 flex flex-wrap p-0.5 opacity-90">
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-white"></div>
-                                            <div class="w-1/4 h-1/4 bg-neutral-900 border border-white"></div>
-                                        </div>
+                                    <div class="w-32 h-32 bg-white p-2 rounded-xl border border-neutral-200 flex items-center justify-center overflow-hidden">
+                                        <div id="qr-{{ $trx->id }}" class="w-full h-full flex items-center justify-center"></div>
                                     </div>
                                     <p class="mt-2.5 font-mono font-semibold text-neutral-700 text-xs tracking-wider">{{ $ticketCode }}</p>
                                 </div>
@@ -297,13 +280,8 @@
                 {{-- Right: QR --}}
                 <div class="flex flex-col items-center justify-center gap-3 border-l border-dashed border-neutral-200 pl-8">
                     <p class="text-neutral-400 text-[9px] font-bold uppercase tracking-widest text-center">Scan Check-in</p>
-                    <div class="w-28 h-28 bg-white p-2 rounded-xl border-2 border-neutral-900 flex items-center justify-center">
-                        <div class="w-full h-full flex flex-wrap">
-                            <div class="w-1/4 h-1/4 bg-neutral-900"></div><div class="w-1/4 h-1/4 bg-white"></div><div class="w-1/4 h-1/4 bg-neutral-900"></div><div class="w-1/4 h-1/4 bg-white"></div>
-                            <div class="w-1/4 h-1/4 bg-white"></div><div class="w-1/4 h-1/4 bg-neutral-900"></div><div class="w-1/4 h-1/4 bg-white"></div><div class="w-1/4 h-1/4 bg-neutral-900"></div>
-                            <div class="w-1/4 h-1/4 bg-neutral-900"></div><div class="w-1/4 h-1/4 bg-white"></div><div class="w-1/4 h-1/4 bg-neutral-900"></div><div class="w-1/4 h-1/4 bg-white"></div>
-                            <div class="w-1/4 h-1/4 bg-white"></div><div class="w-1/4 h-1/4 bg-neutral-900"></div><div class="w-1/4 h-1/4 bg-white"></div><div class="w-1/4 h-1/4 bg-neutral-900"></div>
-                        </div>
+                    <div class="w-28 h-28 bg-white p-1.5 rounded-xl border-2 border-neutral-200 flex items-center justify-center overflow-hidden">
+                        <div id="pt-qrcode-canvas" class="w-full h-full flex items-center justify-center"></div>
                     </div>
                     <p id="pt-ticketCode" class="font-mono text-[10px] font-bold text-neutral-700 tracking-widest text-center"></p>
                     <span id="pt-freeBadge" class="hidden bg-emerald-50 text-emerald-700 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-emerald-200">✓ Tiket Gratis</span>
@@ -391,6 +369,9 @@
             document.getElementById('pt-price').textContent     = data.price;
             document.getElementById('pt-orderId').textContent   = data.orderId;
             document.getElementById('pt-ticketCode').textContent = data.ticketCode;
+
+            // Generate real QR code via QRCode.js (client-side)
+            generateModalQr(data.ticketCode);
 
             const freeBadge = document.getElementById('pt-freeBadge');
             const priceEl   = document.getElementById('pt-price');
@@ -510,6 +491,50 @@
                 alert('Terjadi kesalahan koneksi.');
                 submitBtnText.textContent = 'Kirim Ulasan';
                 spinner.classList.add('hidden');
+            });
+        }
+    </script>
+
+    {{-- ── QR Code Generation ──────────────────────────────────────────── --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Generate a QR code for each ticket card on page load
+        @php
+            $ticketQrMap = [];
+            foreach ($transactions as $t) {
+                $ticketQrMap['qr-' . $t->id] = 'TKT-' . str_pad($t->id, 8, '0', STR_PAD_LEFT);
+            }
+        @endphp
+        const ticketQrMap = @json($ticketQrMap);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            Object.entries(ticketQrMap).forEach(([elId, code]) => {
+                const el = document.getElementById(elId);
+                if (el) {
+                    new QRCode(el, {
+                        text: code,
+                        width: 112,
+                        height: 112,
+                        colorDark: '#1e293b',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                }
+            });
+        });
+
+        // Generate QR for the print modal (called from printTicket function)
+        let _modalQr = null;
+        function generateModalQr(ticketCode) {
+            const container = document.getElementById('pt-qrcode-canvas');
+            container.innerHTML = '';
+            _modalQr = new QRCode(container, {
+                text: ticketCode,
+                width: 100,
+                height: 100,
+                colorDark: '#1e293b',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
             });
         }
     </script>

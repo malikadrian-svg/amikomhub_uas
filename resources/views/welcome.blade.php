@@ -4,38 +4,38 @@
 
 @section('content')
     <!-- ===== HERO ===== -->
-    <section class="max-w-7xl mx-auto px-6 py-20 flex flex-col lg:flex-row items-center gap-16">
-        <div class="flex-1 space-y-7">
+    <section class="max-w-7xl mx-auto px-5 py-12 md:py-20 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <div class="flex-1 space-y-6 text-center lg:text-left">
 
-            <h1 class="text-5xl lg:text-[58px] font-extrabold leading-[1.1] text-neutral-900" style="letter-spacing:-0.02em">
+            <h1 class="text-4xl sm:text-5xl lg:text-[58px] font-extrabold leading-[1.1] text-neutral-900" style="letter-spacing:-0.02em">
                 Temukan &amp; Pesan <br>
                 <span class="text-violet-600">Tiket Event</span> Impianmu
             </h1>
-            <p class="text-base text-neutral-500 max-w-md leading-relaxed font-medium">
+            <p class="text-base text-neutral-500 max-w-md mx-auto lg:mx-0 leading-relaxed font-medium">
                 Dari konser musik eksklusif hingga workshop teknologi. Pesan dengan aman, instan, dan terpercaya bersama Midtrans.
             </p>
-            <div class="flex items-center gap-4">
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
                 <a href="#events"
-                    class="group inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm shadow-md shadow-violet-100/50 hover:bg-violet-700 transition-all duration-150">
+                    class="group inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-violet-600 text-white rounded-xl font-bold text-sm shadow-md shadow-violet-100/50 hover:bg-violet-700 transition-all duration-150 w-full sm:w-auto">
                     Jelajahi Event
                     <svg class="w-4 h-4 transition-transform duration-150 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                     </svg>
                 </a>
                 <a href="#categories"
-                    class="inline-flex items-center justify-center px-5 py-3.5 bg-neutral-50 text-neutral-800 border border-neutral-200/80 rounded-xl font-bold text-sm hover:bg-neutral-100 hover:text-neutral-900 transition-all duration-150">
+                    class="inline-flex items-center justify-center px-5 py-3.5 bg-neutral-50 text-neutral-800 border border-neutral-200/80 rounded-xl font-bold text-sm hover:bg-neutral-100 hover:text-neutral-900 transition-all duration-150 w-full sm:w-auto">
                     Lihat Kategori
                 </a>
             </div>
         </div>
         
         <!-- Hero Visual -->
-        <div class="flex-1 relative w-full max-w-lg">
+        <div class="flex-1 relative w-full max-w-md lg:max-w-lg hidden sm:block">
             <div class="absolute -top-12 -left-12 w-72 h-72 bg-violet-400 rounded-full filter blur-3xl opacity-10 pointer-events-none"></div>
             <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-fuchsia-400 rounded-full filter blur-3xl opacity-10 pointer-events-none"></div>
             
             <div class="relative z-10 bg-white p-3 rounded-[2rem] border border-neutral-150 shadow-sm">
-                <img src="{{ asset('assets/concert.png') }}" alt="Concert"
+                <img src="{{ asset('assets/celebration_toast.png') }}" alt="Celebration Toast"
                     class="rounded-[1.5rem] w-full object-cover aspect-[4/3] object-center">
             </div>
 
@@ -94,7 +94,7 @@
         </div>
         
         <!-- Filter Pills Row -->
-        <div class="flex flex-wrap justify-center gap-2 mb-10">
+        <div class="flex flex-wrap justify-center gap-2 mb-10 px-1">
                 <a href="/"
                     class="inline-flex items-center px-4 py-1.5 rounded-full font-semibold text-xs transition-all duration-150 border
                     {{ !request()->has('category') || request()->category == ''
@@ -120,8 +120,12 @@
                 <div class="w-16 h-16 bg-neutral-50 border border-neutral-200 rounded-full flex items-center justify-center mx-auto mb-5 text-2xl">
                     🔍
                 </div>
-                <h3 class="text-base font-bold text-neutral-800 mb-1">Tidak Ada Event</h3>
-                <p class="text-neutral-500 text-sm">Kategori ini belum memiliki jadwal event saat ini.</p>
+                <h3 class="text-base font-bold text-neutral-800 mb-1">Tidak Ada Event Ditemukan</h3>
+                @if(request('search'))
+                    <p class="text-neutral-500 text-sm">Tidak ada event yang cocok dengan kata kunci "<strong>{{ request('search') }}</strong>".</p>
+                @else
+                    <p class="text-neutral-500 text-sm">Kategori ini belum memiliki jadwal event saat ini.</p>
+                @endif
                 <a href="/" class="inline-flex mt-6 px-5 py-2.5 bg-violet-600 text-white rounded-xl font-bold text-xs hover:bg-violet-700 transition">Lihat Semua Event</a>
             </div>
         @else
