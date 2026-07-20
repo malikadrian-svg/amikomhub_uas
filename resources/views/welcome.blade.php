@@ -210,7 +210,7 @@
                                     @endif
                                 </div>
                                 @if($isEnded)
-                                    <span class="text-xs font-bold text-emerald-600 group-hover:text-emerald-700 transition-colors flex items-center gap-1">
+                                    <span class="text-xs font-bold text-neutral-400 group-hover:text-neutral-600 transition-colors flex items-center gap-1">
                                         Lihat Ulasan
                                         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                                     </span>
