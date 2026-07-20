@@ -6,17 +6,14 @@
 <style>
     /* ── PRINT STYLES: sembunyikan semua kecuali tiket yang dicetak ── */
     @media print {
-        /* Sembunyikan navigasi, footer, wrapper konten utama, modal ulasan, dan tombol no-print */
         nav, footer, main > div:first-of-type, #reviewModal, .no-print {
             display: none !important;
         }
-
         body {
             background: white !important;
             margin: 0 !important;
             padding: 0 !important;
         }
-
         #printTicketModal {
             position: absolute !important;
             left: 0 !important;
@@ -32,7 +29,6 @@
             z-index: 99999 !important;
             box-shadow: none !important;
         }
-
         #printTicketCard {
             box-shadow: none !important;
             border: 1.5px solid #e5e7eb !important;
@@ -41,6 +37,46 @@
             width: 100% !important;
             max-width: 650px !important;
             margin: 0 auto !important;
+        }
+    }
+
+    /* ── MODAL TIKET RESPONSIVE ── */
+    #pt-modal-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem 1.5rem;
+    }
+    #pt-qr-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding-bottom: 1rem;
+        border-bottom: 1.5px dashed #e2e8f0;
+        order: 1;
+    }
+    #pt-info-section {
+        flex: 1;
+        order: 2;
+    }
+    /* Desktop: 2 kolom side-by-side */
+    @media (min-width: 640px) {
+        #pt-modal-body {
+            flex-direction: row;
+            gap: 2rem;
+            padding: 1.5rem 2rem;
+        }
+        #pt-qr-section {
+            padding-bottom: 0;
+            border-bottom: none;
+            border-left: 1.5px dashed #e2e8f0;
+            padding-left: 2rem;
+            order: 2;
+        }
+        #pt-info-section {
+            order: 1;
         }
     }
 </style>
@@ -242,17 +278,28 @@
             </div>
 
             {{-- Body --}}
-            <div class="px-8 py-6 flex gap-8">
-                {{-- Left: detail info --}}
-                <div class="flex-1 space-y-5">
+            <div id="pt-modal-body">
+
+                {{-- QR Section: di mobile tampil ATAS, desktop tampil KANAN --}}
+                <div id="pt-qr-section">
+                    <p style="color:#94a3b8;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;text-align:center;">Scan Check-in</p>
+                    <div style="width:112px;height:112px;background:#fff;padding:6px;border-radius:12px;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                        <div id="pt-qrcode-canvas" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+                    </div>
+                    <p id="pt-ticketCode" style="font-family:monospace;font-size:10px;font-weight:700;color:#334155;letter-spacing:.1em;text-align:center;"></p>
+                    <span id="pt-freeBadge" class="hidden" style="background:#ecfdf5;color:#065f46;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:999px;border:1px solid #a7f3d0;">✓ Tiket Gratis</span>
+                </div>
+
+                {{-- Info Section: di mobile tampil BAWAH, desktop tampil KIRI --}}
+                <div id="pt-info-section">
                     <div class="grid grid-cols-2 gap-x-8 gap-y-5">
                         <div>
                             <p class="text-neutral-400 text-[9px] font-bold uppercase tracking-widest mb-0.5">Nama Pemegang Tiket</p>
                             <p id="pt-name" class="text-neutral-900 font-bold text-sm"></p>
                         </div>
-                        <div>
+                        <div style="min-width:0;overflow:hidden;">
                             <p class="text-neutral-400 text-[9px] font-bold uppercase tracking-widest mb-0.5">Email</p>
-                            <p id="pt-email" class="text-neutral-900 font-semibold text-sm break-all"></p>
+                            <p id="pt-email" class="text-neutral-900 font-semibold text-sm" style="word-break:break-all;"></p>
                         </div>
                         <div>
                             <p class="text-neutral-400 text-[9px] font-bold uppercase tracking-widest mb-0.5">Tanggal</p>
@@ -271,20 +318,10 @@
                             <p id="pt-price" class="text-neutral-900 font-bold text-sm"></p>
                         </div>
                     </div>
-                    <div class="border-t border-dashed border-neutral-200 pt-4">
+                    <div class="border-t border-dashed border-neutral-200 pt-4" style="margin-top:1.25rem;">
                         <p class="text-neutral-400 text-[9px] font-bold uppercase tracking-widest mb-0.5">Order ID</p>
                         <p id="pt-orderId" class="text-neutral-700 font-mono text-xs"></p>
                     </div>
-                </div>
-
-                {{-- Right: QR --}}
-                <div class="flex flex-col items-center justify-center gap-3 border-l border-dashed border-neutral-200 pl-8">
-                    <p class="text-neutral-400 text-[9px] font-bold uppercase tracking-widest text-center">Scan Check-in</p>
-                    <div class="w-28 h-28 bg-white p-1.5 rounded-xl border-2 border-neutral-200 flex items-center justify-center overflow-hidden">
-                        <div id="pt-qrcode-canvas" class="w-full h-full flex items-center justify-center"></div>
-                    </div>
-                    <p id="pt-ticketCode" class="font-mono text-[10px] font-bold text-neutral-700 tracking-widest text-center"></p>
-                    <span id="pt-freeBadge" class="hidden bg-emerald-50 text-emerald-700 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border border-emerald-200">✓ Tiket Gratis</span>
                 </div>
             </div>
 

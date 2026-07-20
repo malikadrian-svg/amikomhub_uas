@@ -53,14 +53,6 @@
 
 <body class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
 
-    <!-- Decorative background dots -->
-    <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        <div style="position:absolute;top:-120px;right:-120px;width:360px;height:360px;
-                    background:radial-gradient(circle, #e9d5ff 0%, transparent 70%);opacity:.5;"></div>
-        <div style="position:absolute;bottom:-120px;left:-120px;width:360px;height:360px;
-                    background:radial-gradient(circle, #ede9fe 0%, transparent 70%);opacity:.5;"></div>
-    </div>
-
     <div class="relative w-full" style="max-width:420px;">
 
         <!-- Logo -->

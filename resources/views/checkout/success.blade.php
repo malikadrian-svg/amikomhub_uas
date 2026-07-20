@@ -19,13 +19,13 @@
             <p class="text-neutral-500 text-xs font-semibold leading-relaxed mb-8">
                 Selamat! Tiket gratis untuk pesanan <strong class="text-neutral-800">{{ $transaction->order_id }}</strong> telah berhasil diterbitkan.<br>
                 E-Ticket Anda telah dikirimkan ke email
-                <strong class="text-neutral-800">{{ $transaction->customer_email }}</strong>.
+                <strong class="text-neutral-800 break-all">{{ $transaction->customer_email }}</strong>.
             </p>
         @else
             {{-- Pesan standar untuk transaksi Midtrans --}}
             <h2 class="text-2xl font-extrabold text-neutral-900 mb-3">Terima Kasih!</h2>
             <p class="text-neutral-500 text-xs font-semibold leading-relaxed mb-8">
-                Pembayaran untuk pesanan <strong class="text-neutral-800">{{ $transaction->order_id }}</strong> sedang diproses atau telah berhasil. E-Ticket akan dikirim ke email Anda (<strong class="text-neutral-800">{{ $transaction->customer_email }}</strong>) setelah status pembayaran terkonfirmasi lunas.
+                Pembayaran untuk pesanan <strong class="text-neutral-800">{{ $transaction->order_id }}</strong> sedang diproses atau telah berhasil. E-Ticket akan dikirim ke email Anda (<strong class="text-neutral-800 break-all">{{ $transaction->customer_email }}</strong>) setelah status pembayaran terkonfirmasi lunas.
             </p>
         @endif
 
