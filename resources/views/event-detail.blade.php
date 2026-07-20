@@ -431,7 +431,20 @@
 
                     {{-- CTA Block --}}
                     <div class="px-7 py-6 space-y-3">
-                        @if($event->stock > 0)
+                        @php $isEventEnded = \Carbon\Carbon::parse($event->date)->isPast(); @endphp
+                        @if($isEventEnded)
+                            <div class="text-center space-y-3">
+                                <div class="w-full px-5 py-3.5 bg-neutral-100 rounded-xl border border-neutral-200 text-center">
+                                    <p class="text-xs font-bold text-neutral-500">Event Telah Selesai</p>
+                                </div>
+                                @if($event->reviews()->count() > 0)
+                                    <a href="{{ route('events.reviews', $event->id) }}"
+                                       class="flex items-center justify-center w-full px-5 py-3 bg-white hover:bg-violet-50 text-violet-600 font-semibold text-sm rounded-xl transition border border-violet-200">
+                                        Baca Ulasan Peserta
+                                    </a>
+                                @endif
+                            </div>
+                        @elseif($event->stock > 0)
                             <a href="{{ route('checkout.create', $event->id) }}"
                                class="flex items-center justify-center w-full px-5 py-3.5 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white font-semibold text-sm rounded-xl transition-all duration-150 shadow-sm hover:shadow-md hover:shadow-violet-500/20"
                                style="letter-spacing:-0.005em">
@@ -444,9 +457,11 @@
                             </button>
                         @endif
 
-                        <p class="text-center text-[10px] text-neutral-400 font-medium">
-                            Pembayaran aman melalui <span class="font-bold text-neutral-500">Midtrans</span>
-                        </p>
+                        @if(!$isEventEnded)
+                            <p class="text-center text-[10px] text-neutral-400 font-medium">
+                                Pembayaran aman melalui <span class="font-bold text-neutral-500">Midtrans</span>
+                            </p>
+                        @endif
                     </div>
                 </div>
 
@@ -515,14 +530,21 @@
 <div class="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white border-t border-neutral-200 px-5 py-3.5 flex items-center justify-between gap-4 shadow-[0_-4px_20px_rgba(15,23,42,0.06)]">
     <div>
         <p class="text-[9px] font-bold uppercase tracking-widest text-neutral-400 leading-none">Harga / orang</p>
-        @if($event->price == 0)
+        @if($isEventEnded)
+            <p class="text-base font-bold text-neutral-400 mt-1">Event Selesai</p>
+        @elseif($event->price == 0)
             <p class="text-base font-bold text-emerald-600 mt-1">GRATIS</p>
         @else
             <p class="text-base font-bold text-neutral-900 mt-1">Rp {{ number_format($event->price, 0, ',', '.') }}</p>
         @endif
     </div>
 
-    @if($event->stock > 0)
+    @if($isEventEnded)
+        <a href="{{ route('events.reviews', $event->id) }}"
+           class="flex-shrink-0 px-6 py-3 bg-neutral-100 text-neutral-500 text-sm font-semibold rounded-xl transition border border-neutral-200 hover:bg-violet-50 hover:text-violet-600 hover:border-violet-200">
+            Lihat Ulasan
+        </a>
+    @elseif($event->stock > 0)
         <a href="{{ route('checkout.create', $event->id) }}"
            class="flex-shrink-0 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold rounded-xl transition-all duration-150 active:scale-95">
             Pesan Tiket

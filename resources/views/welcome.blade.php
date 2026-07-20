@@ -131,12 +131,15 @@
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($events as $event)
-                    @php $hasPoster = $event->poster_path && Storage::disk('public')->exists($event->poster_path); @endphp
+                    @php
+                        $hasPoster  = $event->poster_path && Storage::disk('public')->exists($event->poster_path);
+                        $isEnded    = \Carbon\Carbon::parse($event->date)->isPast();
+                    @endphp
                     <a href="{{ route('events.show', $event->id) }}"
                         class="group bg-white rounded-2xl border border-neutral-200/80 hover:border-violet-200 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col">
                         
                         <!-- Poster Area -->
-                        <div class="relative overflow-hidden bg-neutral-100 aspect-[16/10]">
+                        <div class="relative overflow-hidden bg-neutral-100 aspect-[16/10] {{ $isEnded ? 'opacity-75' : '' }}">
                             @if($hasPoster)
                                 <img src="{{ asset('storage/' . $event->poster_path) }}"
                                     alt="{{ $event->title }}"
@@ -153,6 +156,16 @@
                                     {{ $event->category->name }}
                                 </span>
                             </div>
+
+                            {{-- Selesai badge: only shown when the event date has passed --}}
+                            @if($isEnded)
+                                <div class="absolute top-3 right-3">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-neutral-800/80 text-white rounded-lg text-[10px] font-extrabold uppercase tracking-wide backdrop-blur-sm shadow-sm">
+                                        <svg width="9" height="9" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+                                        Selesai
+                                    </span>
+                                </div>
+                            @endif
                         </div>
 
                         <!-- Card Body -->
@@ -177,19 +190,31 @@
                             <!-- Price & CTA -->
                             <div class="pt-3 border-t border-neutral-100 flex justify-between items-center">
                                 <div>
-                                    <p class="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider mb-0.5">Mulai dari</p>
-                                    <p class="text-base font-extrabold text-neutral-900">
-                                        @if($event->price == 0)
-                                            <span class="text-emerald-600">GRATIS</span>
-                                        @else
-                                            Rp {{ number_format($event->price, 0, ',', '.') }}
-                                        @endif
-                                    </p>
+                                    @if($isEnded)
+                                        <p class="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider mb-0.5">Status</p>
+                                        <p class="text-base font-extrabold text-neutral-400">Selesai</p>
+                                    @else
+                                        <p class="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider mb-0.5">Mulai dari</p>
+                                        <p class="text-base font-extrabold text-neutral-900">
+                                            @if($event->price == 0)
+                                                <span class="text-emerald-600">GRATIS</span>
+                                            @else
+                                                Rp {{ number_format($event->price, 0, ',', '.') }}
+                                            @endif
+                                        </p>
+                                    @endif
                                 </div>
-                                <span class="text-xs font-bold text-violet-600 group-hover:text-violet-800 transition-colors flex items-center gap-1">
-                                    Lihat Detail
-                                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                                </span>
+                                @if($isEnded)
+                                    <span class="text-xs font-bold text-neutral-400 group-hover:text-violet-600 transition-colors flex items-center gap-1">
+                                        Lihat Ulasan
+                                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                                    </span>
+                                @else
+                                    <span class="text-xs font-bold text-violet-600 group-hover:text-violet-800 transition-colors flex items-center gap-1">
+                                        Lihat Detail
+                                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </a>

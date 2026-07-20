@@ -18,7 +18,8 @@ class HomeController extends Controller
         // dan tanggalnya belum terlampaui (sesuai PRD section 5)
         $query = Event::with('category')
             ->approved()                          // status = 'approved'
-            ->where('date', '>=', now())
+            ->where('date', '>=', now()->subDays(3))
+            ->orderByRaw("CASE WHEN date >= NOW() THEN 0 ELSE 1 END")
             ->orderBy('date', 'asc');
 
         if ($request->has('category') && $request->category != '') {
