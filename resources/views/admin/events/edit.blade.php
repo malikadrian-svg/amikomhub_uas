@@ -73,7 +73,7 @@
 
             <div class="form-group">
                 <label class="form-label">Poster Event <span style="color:#94a3b8;font-weight:400;">(kosongkan jika tidak ingin mengubah)</span></label>
-                @if($event->poster_path && Storage::disk('public')->exists($event->poster_path))
+                @if($event->poster_path)
                     <div style="margin-bottom:10px;">
                         <img src="{{ asset('storage/' . $event->poster_path) }}" alt="Poster Saat Ini"
                              style="width:80px;height:100px;object-fit:cover;border-radius:10px;border:1px solid #f1f5f9;">

@@ -132,7 +132,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($events as $event)
                     @php
-                        $hasPoster  = $event->poster_path && Storage::disk('public')->exists($event->poster_path);
+                        $hasPoster  = !empty($event->poster_path);
                         $isEnded    = \Carbon\Carbon::parse($event->date)->isPast();
                     @endphp
                     <a href="{{ route('events.show', $event->id) }}"

@@ -64,7 +64,7 @@
 
                 {{-- Poster --}}
                 <div style="width:140px;flex-shrink:0;background:#f1f5f9;position:relative;overflow:hidden;">
-                    @if($event->poster_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($event->poster_path))
+                    @if($event->poster_path)
                         <img src="{{ asset('storage/' . $event->poster_path) }}" alt=""
                              style="width:100%;height:100%;object-fit:cover;min-height:110px;">
                     @else

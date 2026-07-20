@@ -62,8 +62,7 @@
 
             {{-- Poster Image --}}
             <div class="w-full overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-100">
-                @php $hasPoster = $event->poster_path && Storage::disk('public')->exists($event->poster_path); @endphp
-                @if($hasPoster)
+                @if($event->poster_path)
                     <img src="{{ asset('storage/' . $event->poster_path) }}"
                          alt="{{ $event->title }}"
                          class="w-full object-cover max-h-[420px] object-center">

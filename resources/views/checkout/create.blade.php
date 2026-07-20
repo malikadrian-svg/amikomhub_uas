@@ -122,7 +122,7 @@
 
                         {{-- Poster --}}
                         <div class="rounded-xl overflow-hidden bg-neutral-50 max-h-48 border border-neutral-100">
-                            <img src="{{ ($event->poster_path && Storage::disk('public')->exists($event->poster_path))
+                            <img src="{{ $event->poster_path
                                 ? asset('storage/' . $event->poster_path)
                                 : 'https://placehold.co/600x450?text=No+Poster' }}" alt="{{ $event->title }}"
                                 class="w-full h-full object-cover aspect-[16/9]">

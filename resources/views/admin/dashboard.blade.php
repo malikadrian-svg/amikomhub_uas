@@ -295,7 +295,7 @@
                             <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid #f1f5f9;">
                                 {{-- Thumbnail --}}
                                 <div style="width:44px;height:44px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#f1f5f9;">
-                                    @if($myEvent->poster_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($myEvent->poster_path))
+                                    @if($myEvent->poster_path)
                                         <img src="{{ asset('storage/' . $myEvent->poster_path) }}" style="width:100%;height:100%;object-fit:cover;">
                                     @else
                                         <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">

@@ -112,7 +112,7 @@
                         onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                         <td style="padding:14px 20px;font-size:14px;color:#94a3b8;">{{ $events->firstItem() + $index }}</td>
                         <td style="padding:14px 20px;">
-                            <img src="{{ ($event->poster_path && Storage::disk('public')->exists($event->poster_path))
+                            <img src="{{ $event->poster_path
                                 ? asset('storage/' . $event->poster_path)
                                 : 'https://placehold.co/64x80/f1f5f9/94a3b8?text=No+Img' }}"
                                  style="width:48px;height:60px;border-radius:10px;object-fit:cover;border:1px solid #f1f5f9;">
