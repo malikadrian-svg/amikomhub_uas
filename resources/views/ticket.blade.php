@@ -44,8 +44,8 @@
     #pt-modal-body {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
-        padding: 1.5rem 1.5rem;
+        gap: 1.75rem;
+        padding: 1.75rem 1.5rem;
     }
     #pt-qr-section {
         display: flex;
@@ -53,7 +53,7 @@
         align-items: center;
         justify-content: center;
         gap: 0.75rem;
-        padding-bottom: 1rem;
+        padding-bottom: 1.75rem;
         border-bottom: 1.5px dashed #e2e8f0;
         order: 1;
     }
@@ -65,14 +65,14 @@
     @media (min-width: 640px) {
         #pt-modal-body {
             flex-direction: row;
-            gap: 2rem;
-            padding: 1.5rem 2rem;
+            gap: 2.25rem;
+            padding: 2.25rem 2rem;
         }
         #pt-qr-section {
             padding-bottom: 0;
             border-bottom: none;
             border-left: 1.5px dashed #e2e8f0;
-            padding-left: 2rem;
+            padding-left: 2.25rem;
             order: 2;
         }
         #pt-info-section {
@@ -249,46 +249,46 @@
          PRINT TICKET MODAL — hanya ini yang tercetak saat print
     ══════════════════════════════════════════════════════════════ --}}
     <div id="printTicketModal"
-         class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm"
+         class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/50 backdrop-blur-sm"
          onclick="closePrintModal(event)">
 
-        <div id="printTicketCard"
-             class="relative bg-white w-full max-w-2xl mx-4 rounded-3xl shadow-2xl overflow-hidden"
-             onclick="event.stopPropagation()">
+        <div class="flex min-h-full items-center justify-center p-4 sm:p-6" onclick="closePrintModal(event)">
+            <div id="printTicketCard"
+                 class="relative bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden"
+                 onclick="event.stopPropagation()">
 
-            {{-- Header violet gradient --}}
-            <div class="bg-gradient-to-r from-violet-600 to-violet-500 px-8 py-6 flex items-center justify-between">
-                <div>
-                    <p class="text-violet-200 text-[10px] font-bold uppercase tracking-widest mb-1">AmikomHub &bull; E-Ticket Resmi</p>
-                    <h2 id="pt-eventTitle" class="text-white text-xl font-extrabold leading-tight max-w-xs"></h2>
-                    <span id="pt-category" class="mt-2 inline-block bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"></span>
-                </div>
-                <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <svg width="32" height="32" fill="none" stroke="white" stroke-width="1.75" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-12h9.75c1.05 0 2.025.208 2.925.586a10.457 10.457 0 013.314 2.228 10.457 10.457 0 012.228 3.314c.378.9.586 1.875.586 2.925v.75c0 1.05-.208 2.025-.586 2.925a10.457 10.457 0 01-2.228 3.314 10.457 10.457 0 01-3.314 2.228A10.463 10.463 0 0116.5 21h-9.75a1.5 1.5 0 01-1.5-1.5V7.5a1.5 1.5 0 011.5-1.5z"/>
-                    </svg>
-                </div>
-            </div>
-
-            {{-- Perforated divider --}}
-            <div class="relative flex items-center">
-                <div class="w-6 h-6 bg-neutral-100 rounded-full -ml-3 flex-shrink-0 border border-neutral-200"></div>
-                <div class="flex-1 border-t-2 border-dashed border-neutral-200 mx-1"></div>
-                <div class="w-6 h-6 bg-neutral-100 rounded-full -mr-3 flex-shrink-0 border border-neutral-200"></div>
-            </div>
-
-            {{-- Body --}}
-            <div id="pt-modal-body">
-
-                {{-- QR Section: di mobile tampil ATAS, desktop tampil KANAN --}}
-                <div id="pt-qr-section">
-                    <p style="color:#94a3b8;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;text-align:center;">Scan Check-in</p>
-                    <div style="width:112px;height:112px;background:#fff;padding:6px;border-radius:12px;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-                        <div id="pt-qrcode-canvas" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+                {{-- Header violet gradient --}}
+                <div class="bg-gradient-to-r from-violet-600 to-violet-500 px-8 py-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-violet-200 text-[10px] font-bold uppercase tracking-widest mb-1">AmikomHub &bull; E-Ticket Resmi</p>
+                        <h2 id="pt-eventTitle" class="text-white text-xl font-extrabold leading-tight max-w-xs"></h2>
+                        <span id="pt-category" class="mt-2 inline-block bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"></span>
                     </div>
-                    <p id="pt-ticketCode" style="font-family:monospace;font-size:10px;font-weight:700;color:#334155;letter-spacing:.1em;text-align:center;"></p>
-                    <span id="pt-freeBadge" class="hidden" style="background:#ecfdf5;color:#065f46;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:999px;border:1px solid #a7f3d0;">✓ Tiket Gratis</span>
+                    <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <svg width="32" height="32" fill="none" stroke="white" stroke-width="1.75" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-12h9.75c1.05 0 2.025.208 2.925.586a10.457 10.457 0 013.314 2.228 10.457 10.457 0 012.228 3.314c.378.9.586 1.875.586 2.925v.75c0 1.05-.208 2.025-.586 2.925a10.457 10.457 0 01-2.228 3.314 10.457 10.457 0 01-3.314 2.228A10.463 10.463 0 0116.5 21h-9.75a1.5 1.5 0 01-1.5-1.5V7.5a1.5 1.5 0 011.5-1.5z"/>
+                        </svg>
+                    </div>
                 </div>
+
+                {{-- Perforated divider --}}
+                <div class="relative flex items-center">
+                    <div class="w-6 h-6 bg-neutral-100 rounded-full -ml-3 flex-shrink-0 border border-neutral-200"></div>
+                    <div class="flex-1 border-t-2 border-dashed border-neutral-200 mx-1"></div>
+                    <div class="w-6 h-6 bg-neutral-100 rounded-full -mr-3 flex-shrink-0 border border-neutral-200"></div>
+                </div>
+
+                {{-- Body --}}
+                <div id="pt-modal-body">
+
+                    {{-- QR Section: di mobile tampil ATAS, desktop tampil KANAN --}}
+                    <div id="pt-qr-section">
+                        <p style="color:#94a3b8;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;text-align:center;">Scan Check-in</p>
+                        <div style="width:112px;height:112px;background:#fff;padding:6px;border-radius:12px;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+                            <div id="pt-qrcode-canvas" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+                        </div>
+                        <p id="pt-ticketCode" style="font-family:monospace;font-size:10px;font-weight:700;color:#334155;letter-spacing:.1em;text-align:center;"></p>
+                    </div>
 
                 {{-- Info Section: di mobile tampil BAWAH, desktop tampil KIRI --}}
                 <div id="pt-info-section">
@@ -326,17 +326,17 @@
             </div>
 
             {{-- Footer --}}
-            <div class="bg-neutral-50 border-t border-neutral-100 px-8 py-4 flex items-center justify-between">
+            <div class="bg-neutral-50 border-t border-neutral-100 px-6 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
                 <p class="text-neutral-400 text-[10px] font-semibold">
                     Dicetak dari <strong class="text-neutral-600">AmikomHub</strong> &bull; Harap dibawa saat acara berlangsung
                 </p>
-                <div class="flex items-center gap-2 no-print">
+                <div class="flex items-center gap-2 no-print w-full sm:w-auto justify-center">
                     <button onclick="closePrintModal()"
-                        class="h-8 px-4 rounded-lg border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-semibold text-xs transition">
+                        class="h-8 px-4 rounded-lg border border-neutral-200 bg-white hover:bg-neutral-50 text-neutral-700 font-semibold text-xs transition flex-1 sm:flex-initial">
                         Tutup
                     </button>
                     <button onclick="window.print()"
-                        class="h-8 px-4 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-sm">
+                        class="h-8 px-4 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm flex-1 sm:flex-initial">
                         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                         </svg>
@@ -346,6 +346,7 @@
             </div>
         </div>
     </div>
+</div>
 
     <!-- Review Modal -->
     <div id="reviewModal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
@@ -410,32 +411,26 @@
             // Generate real QR code via QRCode.js (client-side)
             generateModalQr(data.ticketCode);
 
-            const freeBadge = document.getElementById('pt-freeBadge');
-            const priceEl   = document.getElementById('pt-price');
+            const priceEl = document.getElementById('pt-price');
             if (data.isFree) {
-                freeBadge.classList.remove('hidden');
                 priceEl.className = 'text-emerald-600 font-bold text-sm';
             } else {
-                freeBadge.classList.add('hidden');
                 priceEl.className = 'text-neutral-900 font-bold text-sm';
             }
 
             const modal = document.getElementById('printTicketModal');
             modal.classList.remove('hidden');
-            modal.classList.add('flex');
         }
 
         function closePrintModal(e) {
-            if (e && e.target !== document.getElementById('printTicketModal')) return;
+            if (e && e.target.closest('#printTicketCard')) return;
             document.getElementById('printTicketModal').classList.add('hidden');
-            document.getElementById('printTicketModal').classList.remove('flex');
         }
 
         // Tutup tombol dalam modal
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.getElementById('printTicketModal').classList.add('hidden');
-                document.getElementById('printTicketModal').classList.remove('flex');
                 closeReviewModal();
             }
         });
