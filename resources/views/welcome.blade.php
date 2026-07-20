@@ -194,7 +194,7 @@
                                         <p class="text-[9px] text-neutral-400 font-extrabold uppercase tracking-wider mb-0.5">Mulai dari</p>
                                         <p class="text-base font-extrabold text-neutral-900">
                                             @if($event->price == 0)
-                                                <span class="text-emerald-600">GRATIS</span>
+                                                <span>GRATIS</span>
                                             @else
                                                 Rp {{ number_format($event->price, 0, ',', '.') }}
                                             @endif
@@ -207,7 +207,7 @@
                                         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                                     </span>
                                 @else
-                                    <span class="text-xs font-bold text-violet-600 group-hover:text-violet-800 transition-colors flex items-center gap-1">
+                                    <span class="text-xs font-bold text-neutral-400 group-hover:text-violet-600 transition-colors flex items-center gap-1">
                                         Lihat Detail
                                         <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                                     </span>
