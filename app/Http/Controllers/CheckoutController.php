@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,6 +15,12 @@ class CheckoutController extends Controller
 {
     public function create(Event $event)
     {
+        // Blok akses jika event sudah selesai
+        if (Carbon::parse($event->date)->isPast()) {
+            return redirect()->route('events.show', $event->id)
+                ->with('error', 'Pembelian tiket tidak tersedia. Event ini telah selesai.');
+        }
+
         // Mengambil daftar kategori untuk keperluan menu footer
         $categories = Category::all();
 
@@ -22,14 +29,19 @@ class CheckoutController extends Controller
 
     public function store(Request $request, Event $event)
     {
-        // 1. Validasi Input Kredensial Pelanggan
+        // 1. Blok jika event sudah selesai
+        if (Carbon::parse($event->date)->isPast()) {
+            return back()->with('error', 'Pembelian tiket tidak tersedia. Event ini telah selesai.');
+        }
+
+        // 2. Validasi Input Kredensial Pelanggan
         $request->validate([
-            'customer_name' => 'required|string|max:255',
+            'customer_name'  => 'required|string|max:255',
             'customer_email' => 'required|email|max:255',
             'customer_phone' => 'required|string|max:20',
         ]);
 
-        // 2. Cegah Check-out Jika Tiket Habis
+        // 3. Cegah Check-out Jika Tiket Habis
         if ($event->stock <= 0) {
             return back()->with('error', 'Mohon maaf, tiket untuk acara ini sudah habis.');
         }
