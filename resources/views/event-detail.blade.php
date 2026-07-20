@@ -185,8 +185,13 @@
                     </div>
                 @else
                     @if(!$isAllowedToReview)
-                        <div class="bg-neutral-100 border border-neutral-200 rounded-2xl p-5 text-neutral-600 text-sm">
-                            <span class="font-semibold text-neutral-800">Ulasan belum dibuka:</span> Ulasan baru dapat diberikan 1 hari setelah acara selesai (mulai {{ $reviewAllowedAfter->translatedFormat('d M Y, H:i') }} WIB).
+                        <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-5 text-neutral-600 text-sm flex items-start gap-3">
+                            <svg class="w-5 h-5 text-neutral-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <span class="font-bold text-neutral-800">Ulasan Belum Dibuka:</span> Kolom ulasan baru akan aktif 1 hari setelah event berakhir. Silakan kembali lagi pada <span class="font-semibold text-neutral-800">{{ $reviewAllowedAfter->translatedFormat('d M Y') }} pukul {{ $reviewAllowedAfter->format('H:i') }} WIB</span>.
+                            </div>
                         </div>
                     @elseif($hasReviewed)
                         <div class="bg-emerald-50/65 border border-emerald-100 rounded-2xl p-6 space-y-3">
@@ -212,12 +217,12 @@
                             @endif
                         </div>
                     @elseif(!$hasPurchased)
-                        <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-5 text-neutral-600 text-sm flex items-start gap-3">
-                            <svg class="w-5 h-5 text-neutral-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5 text-rose-800 text-sm flex items-start gap-3">
+                            <svg class="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m0-6h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <span class="font-bold text-neutral-800">Menulis ulasan dibatasi:</span> Fitur ini hanya terbuka untuk peserta terdaftar dengan transaksi tiket yang sukses pada event ini.
+                                <span class="font-bold text-rose-950">Menulis ulasan dibatasi:</span> Fitur ini hanya terbuka untuk peserta terdaftar dengan transaksi tiket yang sukses pada event ini.
                             </div>
                         </div>
                     @else
@@ -444,7 +449,7 @@
                                 </div>
                                 @if($event->reviews()->count() > 0)
                                     <a href="{{ route('events.reviews', $event->id) }}"
-                                       class="flex items-center justify-center w-full px-5 py-3 bg-white hover:bg-violet-50 text-violet-600 font-semibold text-sm rounded-xl transition border border-violet-200">
+                                       class="flex items-center justify-center w-full px-5 py-3.5 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white font-semibold text-sm rounded-xl transition shadow-sm font-semibold">
                                         Baca Ulasan Peserta
                                     </a>
                                 @endif
@@ -533,20 +538,20 @@
 
 {{-- ─── MOBILE BOTTOM BAR ───────────────────────────────────────────────────── --}}
 <div class="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-white border-t border-neutral-200 px-5 py-3.5 flex items-center justify-between gap-4 shadow-[0_-4px_20px_rgba(15,23,42,0.06)]">
-    <div>
-        <p class="text-[9px] font-bold uppercase tracking-widest text-neutral-400 leading-none">Harga / orang</p>
-        @if($isEventEnded)
-            <p class="text-base font-bold text-neutral-400 mt-1">Event Selesai</p>
-        @elseif($event->price == 0)
-            <p class="text-base font-bold text-emerald-600 mt-1">GRATIS</p>
-        @else
-            <p class="text-base font-bold text-neutral-900 mt-1">Rp {{ number_format($event->price, 0, ',', '.') }}</p>
-        @endif
-    </div>
+    @if(!$isEventEnded)
+        <div>
+            <p class="text-[9px] font-bold uppercase tracking-widest text-neutral-400 leading-none">Harga / orang</p>
+            @if($event->price == 0)
+                <p class="text-base font-bold text-emerald-600 mt-1">GRATIS</p>
+            @else
+                <p class="text-base font-bold text-neutral-900 mt-1">Rp {{ number_format($event->price, 0, ',', '.') }}</p>
+            @endif
+        </div>
+    @endif
 
     @if($isEventEnded)
         <a href="{{ route('events.reviews', $event->id) }}"
-           class="flex-shrink-0 px-6 py-3 bg-neutral-100 text-neutral-500 text-sm font-semibold rounded-xl transition border border-neutral-200 hover:bg-violet-50 hover:text-violet-600 hover:border-violet-200">
+           class="w-full text-center py-3.5 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white text-sm font-semibold rounded-xl transition shadow-md shadow-violet-500/10">
             Lihat Ulasan
         </a>
     @elseif($event->stock > 0)
