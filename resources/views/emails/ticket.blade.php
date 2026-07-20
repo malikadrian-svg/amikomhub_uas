@@ -37,6 +37,17 @@
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
+        /* ── Poster ── */
+        .poster-wrap {
+            width: 100%;
+            line-height: 0;
+        }
+        .poster-wrap img {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            display: block;
+        }
         .ticket-top {
             background-color: #eef2ff;
             padding: 30px;
@@ -97,6 +108,16 @@
             margin-bottom: 15px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
+        .qr-fallback {
+            background-color: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+            font-size: 12px;
+            color: #64748b;
+        }
         .footer {
             text-align: center;
             padding: 0 30px 30px 30px;
@@ -115,6 +136,14 @@
 
         <!-- Ticket Card -->
         <div class="ticket-card">
+
+            {{-- ── Poster Event (embed base64 agar muncul di semua email client) ── --}}
+            @if($posterBase64)
+            <div class="poster-wrap">
+                <img src="{{ $posterBase64 }}" alt="Poster {{ $transaction->event->title }}">
+            </div>
+            @endif
+
             <!-- Ticket Header -->
             <div class="ticket-top">
                 <p>E-Ticket Resmi</p>
@@ -129,7 +158,7 @@
                         <p class="value">{{ $transaction->customer_name }}</p>
                     </div>
                     <div class="grid-item">
-                        <p class="label">Tanggal & Waktu</p>
+                        <p class="label">Tanggal &amp; Waktu</p>
                         <p class="value">{{ \Carbon\Carbon::parse($transaction->event->date)->format('d M, H:i') }}</p>
                     </div>
                     <div class="grid-item">
@@ -144,9 +173,20 @@
 
                 <div class="qr-section">
                     <p class="label" style="margin-bottom: 15px;">Scan QR untuk Check-in</p>
-                    <div class="qr-container">
-                        <img src="https://api.qrserver.com/v1/create-qrcode/?size=150x150&data={{ urlencode($transaction->order_id) }}" alt="QR Code" width="150" height="150" style="display: block;">
-                    </div>
+
+                    {{-- ── QR Code: embed base64 hasil fetch server-side ── --}}
+                    @if($qrBase64)
+                        <div class="qr-container">
+                            <img src="{{ $qrBase64 }}" alt="QR Code" width="150" height="150" style="display: block;">
+                        </div>
+                    @else
+                        {{-- Fallback jika QR API tidak bisa diakses --}}
+                        <div class="qr-fallback">
+                            <p style="margin:0 0 8px 0; font-weight:bold; color:#475569;">QR Code</p>
+                            <p style="margin:0; font-family:monospace; font-size:13px; color:#1e293b;">{{ $transaction->order_id }}</p>
+                        </div>
+                    @endif
+
                     <p style="margin: 0; font-family: monospace; font-weight: bold; color: #1e293b;">{{ $transaction->order_id }}</p>
                 </div>
             </div>
