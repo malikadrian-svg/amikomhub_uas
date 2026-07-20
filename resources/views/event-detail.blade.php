@@ -178,9 +178,9 @@
 
                 @if(!auth()->check())
                     <div class="bg-violet-50/50 border border-violet-100 rounded-2xl p-6 text-center">
-                        <p class="text-sm text-neutral-600 mb-4">Hanya pembeli tiket yang sah yang dapat memberikan ulasan dan rating bintang.</p>
-                        <a href="{{ route('admin.login') }}" class="inline-flex items-center justify-center h-10 px-6 rounded-lg bg-violet-500 hover:bg-violet-600 text-white font-semibold text-sm transition-colors duration-150 shadow-sm">
-                            Login untuk Memberikan Ulasan
+                        <p class="text-sm text-neutral-600 mb-4">Ingin memberikan ulasan? Silakan masuk ke akun Anda terlebih dahulu. Ulasan hanya dapat ditulis oleh pembeli tiket resmi.</p>
+                        <a href="{{ route('user.login') }}" class="inline-flex items-center justify-center h-10 px-6 rounded-lg bg-violet-500 hover:bg-violet-600 text-white font-semibold text-sm transition-colors duration-150 shadow-sm">
+                            Masuk ke Akun
                         </a>
                     </div>
                 @else
@@ -212,8 +212,13 @@
                             @endif
                         </div>
                     @elseif(!$hasPurchased)
-                        <div class="bg-rose-50/60 border border-rose-100 rounded-2xl p-5 text-rose-800 text-sm">
-                            Hanya pembeli tiket terdaftar dengan status transaksi 'Success' yang dapat memberikan ulasan untuk event ini.
+                        <div class="bg-neutral-50 border border-neutral-200 rounded-2xl p-5 text-neutral-600 text-sm flex items-start gap-3">
+                            <svg class="w-5 h-5 text-neutral-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m0-6h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <span class="font-bold text-neutral-800">Menulis ulasan dibatasi:</span> Fitur ini hanya terbuka untuk peserta terdaftar dengan transaksi tiket yang sukses pada event ini.
+                            </div>
                         </div>
                     @else
                         <!-- Form Review Langsung di Detail Event -->
@@ -477,7 +482,7 @@
                             <p class="text-[10px] font-semibold text-emerald-600 mt-0.5 leading-none">✓ Terverifikasi</p>
                         </div>
                     </div>
-                    @if($event->reviews()->count() > 0)
+                    @if($event->reviews()->count() > 0 && !$isEventEnded)
                         <div class="text-right flex-shrink-0">
                             <a href="{{ route('events.reviews', $event->id) }}" class="flex flex-col items-end">
                                 <span class="text-xs font-extrabold text-neutral-800 flex items-center gap-0.5">
