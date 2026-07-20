@@ -132,7 +132,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($events as $event)
                     @php
-                        $hasPoster  = $event->poster_path && Storage::disk('public')->exists($event->poster_path);
+                        $posterPath = $event->poster_path;
+                        // Support both old storage/app/public paths and new public/uploads paths
+                        $hasPoster  = $posterPath && (
+                            file_exists(public_path($posterPath)) ||
+                            file_exists(public_path('storage/' . $posterPath))
+                        );
+                        $posterUrl  = $hasPoster
+                            ? (file_exists(public_path($posterPath)) ? asset($posterPath) : asset('storage/' . $posterPath))
+                            : null;
                         $isEnded    = \Carbon\Carbon::parse($event->date)->isPast();
                     @endphp
                     <a href="{{ route('events.show', $event->id) }}"
@@ -141,7 +149,7 @@
                         <!-- Poster Area -->
                         <div class="relative overflow-hidden bg-neutral-100 aspect-[16/10] {{ $isEnded ? 'opacity-75' : '' }}">
                             @if($hasPoster)
-                                <img src="{{ asset('storage/' . $event->poster_path) }}"
+                                <img src="{{ $posterUrl }}"
                                     alt="{{ $event->title }}"
                                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                             @else

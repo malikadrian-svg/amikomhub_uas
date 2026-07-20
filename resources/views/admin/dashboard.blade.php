@@ -189,8 +189,14 @@
                      onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fafafa'">
                     {{-- Thumbnail --}}
                     <div style="width:48px;height:48px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#f1f5f9;">
-                        @if($pending->poster_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($pending->poster_path))
-                            <img src="{{ asset('storage/' . $pending->poster_path) }}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                        @php
+                            $pPath = $pending->poster_path;
+                            $pUrl = $pPath && (file_exists(public_path($pPath)) || file_exists(public_path('storage/' . $pPath)))
+                                ? (file_exists(public_path($pPath)) ? asset($pPath) : asset('storage/' . $pPath))
+                                : null;
+                        @endphp
+                        @if($pUrl)
+                            <img src="{{ $pUrl }}" alt="" style="width:100%;height:100%;object-fit:cover;">
                         @else
                             <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
                                 <svg width="20" height="20" fill="none" stroke="#94a3b8" stroke-width="1.75" viewBox="0 0 24 24">
@@ -295,8 +301,14 @@
                             <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;border:1px solid #f1f5f9;">
                                 {{-- Thumbnail --}}
                                 <div style="width:44px;height:44px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#f1f5f9;">
-                                    @if($myEvent->poster_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($myEvent->poster_path))
-                                        <img src="{{ asset('storage/' . $myEvent->poster_path) }}" style="width:100%;height:100%;object-fit:cover;">
+                                    @php
+                                        $mePath = $myEvent->poster_path;
+                                        $meUrl = $mePath && (file_exists(public_path($mePath)) || file_exists(public_path('storage/' . $mePath)))
+                                            ? (file_exists(public_path($mePath)) ? asset($mePath) : asset('storage/' . $mePath))
+                                            : null;
+                                    @endphp
+                                    @if($meUrl)
+                                        <img src="{{ $meUrl }}" style="width:100%;height:100%;object-fit:cover;">
                                     @else
                                         <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
                                             <svg width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="1.75" viewBox="0 0 24 24">

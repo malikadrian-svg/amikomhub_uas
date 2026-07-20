@@ -62,9 +62,18 @@
 
             {{-- Poster Image --}}
             <div class="w-full overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-100">
-                @php $hasPoster = $event->poster_path && Storage::disk('public')->exists($event->poster_path); @endphp
+                @php
+                    $posterPath = $event->poster_path;
+                    $hasPoster  = $posterPath && (
+                        file_exists(public_path($posterPath)) ||
+                        file_exists(public_path('storage/' . $posterPath))
+                    );
+                    $posterUrl  = $hasPoster
+                        ? (file_exists(public_path($posterPath)) ? asset($posterPath) : asset('storage/' . $posterPath))
+                        : null;
+                @endphp
                 @if($hasPoster)
-                    <img src="{{ asset('storage/' . $event->poster_path) }}"
+                    <img src="{{ $posterUrl }}"
                          alt="{{ $event->title }}"
                          class="w-full object-cover max-h-[420px] object-center">
                 @else

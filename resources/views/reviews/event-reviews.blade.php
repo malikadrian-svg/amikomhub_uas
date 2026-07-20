@@ -17,7 +17,11 @@
             <!-- Event Header Card -->
             <div class="bg-white border border-neutral-100 rounded-2xl p-6 shadow-sm mb-8 flex flex-col md:flex-row gap-6 items-start md:items-center">
                 @if($event->poster_path)
-                    <img src="{{ asset('storage/' . $event->poster_path) }}" alt="{{ $event->title }}" class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-xl border border-neutral-100 flex-shrink-0">
+                    @php
+                        $rvPath = $event->poster_path;
+                        $rvUrl  = file_exists(public_path($rvPath)) ? asset($rvPath) : asset('storage/' . $rvPath);
+                    @endphp
+                    <img src="{{ $rvUrl }}" alt="{{ $event->title }}" class="w-24 h-24 md:w-32 md:h-32 object-cover rounded-xl border border-neutral-100 flex-shrink-0">
                 @else
                     <div class="w-24 h-24 md:w-32 md:h-32 bg-violet-50 text-violet-500 rounded-xl flex items-center justify-center flex-shrink-0">
                         <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">

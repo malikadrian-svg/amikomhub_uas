@@ -64,8 +64,14 @@
 
                 {{-- Poster --}}
                 <div style="width:140px;flex-shrink:0;background:#f1f5f9;position:relative;overflow:hidden;">
-                    @if($event->poster_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($event->poster_path))
-                        <img src="{{ asset('storage/' . $event->poster_path) }}" alt=""
+                    @php
+                        $apPath = $event->poster_path;
+                        $apUrl = $apPath && (file_exists(public_path($apPath)) || file_exists(public_path('storage/' . $apPath)))
+                            ? (file_exists(public_path($apPath)) ? asset($apPath) : asset('storage/' . $apPath))
+                            : null;
+                    @endphp
+                    @if($apUrl)
+                        <img src="{{ $apUrl }}" alt=""
                              style="width:100%;height:100%;object-fit:cover;min-height:110px;">
                     @else
                         <div style="width:100%;height:100%;min-height:110px;display:flex;align-items:center;justify-content:center;">

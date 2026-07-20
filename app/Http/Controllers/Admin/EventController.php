@@ -86,7 +86,10 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('poster')) {
-            $data['poster_path'] = $request->file('poster')->store('posters', 'public');
+            $file     = $request->file('poster');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/posters'), $filename);
+            $data['poster_path'] = 'uploads/posters/' . $filename;
         }
 
         $user = Auth::user();
@@ -136,10 +139,14 @@ class EventController extends Controller
         ]);
 
         if ($request->hasFile('poster')) {
-            if ($event->poster_path) {
-                Storage::disk('public')->delete($event->poster_path);
+            // Hapus file lama jika ada
+            if ($event->poster_path && file_exists(public_path($event->poster_path))) {
+                unlink(public_path($event->poster_path));
             }
-            $data['poster_path'] = $request->file('poster')->store('posters', 'public');
+            $file     = $request->file('poster');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/posters'), $filename);
+            $data['poster_path'] = 'uploads/posters/' . $filename;
         }
 
         // Jika organizer mengedit, reset status ke pending untuk re-approval
